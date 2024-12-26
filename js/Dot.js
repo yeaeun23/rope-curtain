@@ -5,8 +5,9 @@ export default class Dot {
     this.pos = new Vector(x, y);
     this.oldPos = new Vector(x, y);
 
-    this.friction = 0.97;
-    this.gravity = new Vector(0, 1);
+    this.friction = 0.97; // 마찰력
+    this.gravity = new Vector(0, 1); // 중력
+    this.mass = 1; // 무게
 
     this.pinned = false;
   }
@@ -20,8 +21,8 @@ export default class Dot {
 
     this.oldPos.setXY(this.pos.x, this.pos.y);
 
-    vel.mult(this.friction); // 마찰력 곱하기
-    vel.add(this.gravity); // 중력 더하기
+    vel.mult(this.friction);
+    vel.add(this.gravity);
 
     this.pos.add(vel);
   }

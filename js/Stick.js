@@ -5,6 +5,7 @@ export default class Stick {
 
     // 두 점 사이의 거리
     this.length = this.startPoint.pos.dist(this.endPoint.pos); // L
+    this.tension = 0.05;
   }
 
   update() {
@@ -13,17 +14,21 @@ export default class Stick {
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     const diff = (dist - this.length) / dist;
-    const offsetX = diff * dx; // ax
-    const offsetY = diff * dy; // ay
+    const offsetX = diff * dx * this.tension; // ax
+    const offsetY = diff * dy * this.tension; // ay
 
-    // if (!this.startPoint.pinned) {
-    //    this.startPoint.pos.x += offsetX * 0.5;
-    //    this.startPoint.pos.y += offsetY * 0.5;
-    // }
-    // if (!this.endPoint.pinned) {
-    this.endPoint.pos.x -= offsetX * 0.5;
-    this.endPoint.pos.y -= offsetY * 0.5;
-    // }
+    const m = this.startPoint.mass + this.endPoint.mass;
+    const m1 = this.startPoint.mass / m;
+    const m2 = this.endPoint.mass / m;
+
+    if (!this.startPoint.pinned) {
+      this.startPoint.pos.x += offsetX * m1;
+      this.startPoint.pos.y += offsetY * m1;
+    }
+    if (!this.endPoint.pinned) {
+      this.endPoint.pos.x -= offsetX * m2;
+      this.endPoint.pos.y -= offsetY * m2;
+    }
   }
 
   draw(ctx) {
