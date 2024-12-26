@@ -54,10 +54,10 @@ export default class Vector {
     return this;
   }
 
-  // 두 점 사이의 거리 구하기 (피타고라스 정리)
+  // 두 점 사이의 거리 (피타고라스 정리)
   dist(v) {
     const dx = this.x - v.x;
     const dy = this.y - v.y;
-    return Math.sqrt(dx * dx, dy * dy); // √dx²+dy²
+    return Math.sqrt(dx * dx + dy * dy); // √dx²+dy²
   }
 }

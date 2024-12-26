@@ -7,9 +7,15 @@ export default class Dot {
 
     this.friction = 0.97;
     this.gravity = new Vector(0, 1);
+
+    this.pinned = false;
   }
 
   update() {
+    if (this.pinned) {
+      return;
+    }
+
     let vel = Vector.sub(this.pos, this.oldPos); // 속도(velocity)
 
     this.oldPos.setXY(this.pos.x, this.pos.y);
