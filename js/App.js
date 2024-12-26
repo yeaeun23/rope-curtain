@@ -1,3 +1,5 @@
+import Dot from "./Dot.js";
+
 export default class App {
   static width = innerWidth;
   static height = innerHeight;
@@ -11,6 +13,8 @@ export default class App {
 
     this.resize();
     window.addEventListener("resize", this.resize.bind(this));
+
+    this.dots = [new Dot(400, 50)];
   }
 
   resize() {
@@ -39,8 +43,14 @@ export default class App {
         return;
       }
 
+      // 화면 지우기
       this.ctx.clearRect(0, 0, App.width, App.height);
-      this.ctx.fillRect(100, 100, 100, 100);
+
+      // Dot 그리기
+      this.dots.forEach((dot) => {
+        dot.update();
+        dot.draw(this.ctx);
+      });
 
       then = now - (delta % App.interval);
     };
