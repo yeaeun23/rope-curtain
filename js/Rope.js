@@ -20,6 +20,15 @@ export default class Rope {
     this.dots[index].pinned = true;
   }
 
+  checkPullingOut() {
+    const dist = this.dots[0].pos.dist(this.dots[1].pos); // 점 사이 거리(=늘어난 스틱 길이)
+
+    // 원래 스틱 길이와 비교
+    if (dist / this.sticks[0].length > 1.4) {
+      this.dots[0].pinned = false; // 고정 해제
+    }
+  }
+
   create() {
     // 점 생성
     for (let i = 0; i < this.segments; i++) {
@@ -33,6 +42,8 @@ export default class Rope {
   }
 
   update(mouse) {
+    this.checkPullingOut();
+
     this.dots.forEach((dot) => {
       dot.update(mouse);
     });
