@@ -1,6 +1,5 @@
-import Dot from "./Dot.js";
 import Mouse from "./Mouse.js";
-import Stick from "./Stick.js";
+import Rope from "./Rope.js";
 
 export default class App {
   static width = innerWidth;
@@ -17,13 +16,11 @@ export default class App {
     window.addEventListener("resize", this.resize.bind(this));
 
     this.mouse = new Mouse(this.canvas);
-    this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0)];
-    this.sticks = [
-      new Stick(this.dots[0], this.dots[1]),
-      new Stick(this.dots[1], this.dots[2]),
-      new Stick(this.dots[2], this.dots[3]),
-    ];
-    this.dots[0].pinned = true;
+
+    this.ropes = [];
+    const rope_1 = new Rope({ x: 400, y: 100 });
+    rope_1.pin(0);
+    this.ropes.push(rope_1);
   }
 
   resize() {
@@ -55,22 +52,10 @@ export default class App {
       // 화면 지우기
       this.ctx.clearRect(0, 0, App.width, App.height);
 
-      // Dot, Stick 그리기 (Dot과 Stick 사이 여백 때문에 따로 실행)
-      this.dots.forEach((dot) => {
-        dot.update(this.mouse);
-      });
-      // 버그 최소화
-      for (let i = 0; i < 10; i++) {
-        this.sticks.forEach((stick) => {
-          stick.update();
-        });
-      }
-
-      this.dots.forEach((dot) => {
-        dot.draw(this.ctx);
-      });
-      this.sticks.forEach((stick) => {
-        stick.draw(this.ctx);
+      // 로프 그리기
+      this.ropes.forEach((rope) => {
+        rope.update(this.mouse);
+        rope.draw(this.ctx);
       });
 
       then = now - (delta % App.interval);
