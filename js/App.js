@@ -1,4 +1,5 @@
 import Dot from "./Dot.js";
+import Mouse from "./Mouse.js";
 import Stick from "./Stick.js";
 
 export default class App {
@@ -15,6 +16,7 @@ export default class App {
     this.resize();
     window.addEventListener("resize", this.resize.bind(this));
 
+    this.mouse = new Mouse(this.canvas);
     this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0)];
     this.sticks = [
       new Stick(this.dots[0], this.dots[1]),
@@ -53,15 +55,18 @@ export default class App {
       // 화면 지우기
       this.ctx.clearRect(0, 0, App.width, App.height);
 
-      // Dot 그리기
+      // Dot, Stick 그리기 (Dot과 Stick 사이 여백 때문에 따로 실행)
       this.dots.forEach((dot) => {
-        dot.update();
-        dot.draw(this.ctx);
+        dot.update(this.mouse);
       });
-
-      // Stick 그리기
       this.sticks.forEach((stick) => {
         stick.update();
+      });
+
+      this.dots.forEach((dot) => {
+        dot.draw(this.ctx);
+      });
+      this.sticks.forEach((stick) => {
         stick.draw(this.ctx);
       });
 

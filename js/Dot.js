@@ -12,7 +12,7 @@ export default class Dot {
     this.pinned = false;
   }
 
-  update() {
+  update(mouse) {
     if (this.pinned) {
       return;
     }
@@ -25,6 +25,25 @@ export default class Dot {
     vel.add(this.gravity);
 
     this.pos.add(vel);
+
+    // 마우스 따라 움직이기
+    let { x: dx, y: dy } = Vector.sub(mouse.pos, this.pos);
+    const dist = Math.sqrt(dx * dx + dy * dy); // 두 점 사이의 거리
+
+    // force 음수 방지
+    if (dist > mouse.radius) {
+      return;
+    }
+
+    const direction = new Vector(dx / dist, dy / dist);
+    const force = (mouse.radius - dist) / mouse.radius;
+
+    // 떨림 방지
+    if (force > 0.8) {
+      this.pos.setXY(mouse.pos.x, mouse.pos.y); // 마우스 위치와 동일하게
+    } else {
+      this.pos.add(direction.mult(force).mult(5)); // 마우스 쪽으로 끌리게
+    }
   }
 
   draw(ctx) {

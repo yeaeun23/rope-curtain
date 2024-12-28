@@ -5,7 +5,7 @@ export default class Stick {
 
     // 두 점 사이의 거리
     this.length = this.startPoint.pos.dist(this.endPoint.pos); // L
-    this.tension = 0.05;
+    this.tension = 0.5;
   }
 
   update() {
