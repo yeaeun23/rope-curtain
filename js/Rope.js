@@ -53,5 +53,8 @@ export default class Rope {
     this.sticks.forEach((stick) => {
       stick.draw(ctx);
     });
+
+    // 마지막 점에 라이트 그리기
+    this.dots[this.dots.length - 1].drawLight(ctx);
   }
 }

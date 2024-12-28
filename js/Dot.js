@@ -10,6 +10,9 @@ export default class Dot {
     this.mass = 1; // 무게
 
     this.pinned = false;
+
+    this.lightImg = document.querySelector("#light-img");
+    this.lightSize = 15;
   }
 
   update(mouse) {
@@ -43,5 +46,15 @@ export default class Dot {
   draw(ctx) {
     ctx.fillStyle = "#999";
     ctx.fillRect(this.pos.x - this.mass, this.pos.y - this.mass, this.mass * 2, this.mass * 2);
+  }
+
+  drawLight(ctx) {
+    ctx.drawImage(
+      this.lightImg,
+      this.pos.x - this.lightSize / 2,
+      this.pos.y - this.lightSize / 2,
+      this.lightSize,
+      this.lightSize
+    );
   }
 }
